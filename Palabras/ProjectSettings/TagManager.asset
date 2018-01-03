@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - ZonaJuego
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Decorado
+    uniqueID: 4203882579
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Cartas
+    uniqueID: 3970647507
+    locked: 0
+  - name: Tienda
+    uniqueID: 2983895135
+    locked: 0
+  - name: Seleccionado
+    uniqueID: 1869721495
+    locked: 0
