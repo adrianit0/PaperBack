@@ -111,6 +111,13 @@ public class ZonaJuego : MonoBehaviour {
         cartas.Add(carta);
     }
 
+    public Carta[] DescartarMano () {
+        Carta[] _lista = cartas.ToArray();
+        cartas = new List<Carta>();
+
+        return _lista;
+    }
+
     public void MoverCartasAuto () {
         float cant = cartas.Count;
         float _sep = sep;

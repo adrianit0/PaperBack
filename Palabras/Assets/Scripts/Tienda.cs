@@ -93,4 +93,13 @@ public class Tienda {
 
         return null;
     }
+
+    public void RemoveCard(int precioReal, Carta carta) {
+        List<Carta> _lista;
+        if(cartasLetras.TryGetValue(precioReal, out _lista)) {
+            if(_lista != null && _lista.Contains(carta)) {
+                _lista.Remove(carta);
+            }
+        }
+    }
 }

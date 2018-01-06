@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO: El efecto de las cartas
 public class GameManager : MonoBehaviour {
 
     public CartaInfo[] cartas;
@@ -27,24 +28,32 @@ public class GameManager : MonoBehaviour {
     float posSeleccionado;
     ZonaJuego zonaSeleccionado;
 
+    GameObject panelCartas;
+
     int layerMask;
+    bool rayActivado = false;
 
     BuscarPalabra buscador;
     ShopController tienda;
     CartaComun cartaComun;
     ComodinManager comodinMan;
+    MarcadorManager marcador;
 
     void Awake() {
         buscador = new BuscarPalabra(null);
         tienda = GetComponent<ShopController>();
         cartaComun = GetComponent<CartaComun>();
         comodinMan = GetComponent<ComodinManager>();
+        marcador = GetComponent<MarcadorManager>();
     }
 
     void Start() {
         zonaMano.Configurar(this);
         zonaJuego.Configurar(this);
         zonaComun.Configurar(this);
+        
+        panelCartas = new GameObject("Panel cartas");
+        panelCartas.transform.position = Vector3.zero;
 
         layerMask = zonaJuego.gameObject.layer;
 
@@ -79,21 +88,24 @@ public class GameManager : MonoBehaviour {
                             break;
                         
                     }
-                   
                 }
             }
         }
 
         tienda.Inicializar();
+        marcador.Inicializar(cantJugadores);
         cartaComun.SeleccionarUna();
         //CambiarTamañoMazos();
         for (int i=0; i < cantJugadores; i++) {
             jugadores[i].BarajarMazo();
         }
-        StartCoroutine (RobarCarta(5));
+        StartRound(0);
     }
 
     void Update() {
+        if(!rayActivado)
+            return;
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         
@@ -125,8 +137,33 @@ public class GameManager : MonoBehaviour {
         Carta script = obj.GetComponent<Carta>();
         obj.transform.position = posGuardado;
 
+        SetPanel(obj);
         script.ConfigurarCarta(cartas[idCarta]);
         return script;
+    }
+
+    public void SetPanel (GameObject obj) {
+        obj.transform.parent = panelCartas.transform;
+    }
+
+    public void StartRound(bool nextRound = true) {
+        jugadorActual = (nextRound) ? ++jugadorActual : jugadorActual;
+        if(jugadorActual >= cantJugadores)
+            jugadorActual = 0;
+
+        StartRound(jugadorActual);
+        Debug.Log("Ronda actual: " + jugadorActual);
+    }
+
+    public void StartRound (int ronda) {
+        jugadorActual = ronda;
+
+        marcador.SeleccionarMarcador(jugadorActual);
+        GetPlayer().StartTurn();
+        StartCoroutine(RobarCarta(5));
+
+        //Activar solo cuando es tu turno.
+        ActivarRayCast(true);
     }
 
     void EnviarPalabra () {
@@ -136,9 +173,36 @@ public class GameManager : MonoBehaviour {
         if (index>=0) {
             int premio = zonaJuego.CalcularPremio();
 
+            //ACTIVAR EFECTOS DE LAS CARTAS
+            // 1º Los efectos de ganar mas premio
+            // 2º Los efectos de copiar habilidades
+            // 3º Los efectos de eliminar carta
+
+            GetPlayer().ReceiveMoney(premio);
+            comodinMan.CerrarPanel();
+            DescartarTodaMano();
+            ChangeText();
+            ActivarRayCast(false);
+            tienda.AbrirTienda();
             Debug.Log("La palabra " + palabra + "(" + buscador.GetLine(index) + ") existe. PREMIO GANADO: " + premio);
         } else {
             Debug.Log("La palabra " + palabra + " no existe");
+        }
+    }
+
+    public void ChangeText() {
+        marcador.CambiarTextos(jugadorActual);
+    }
+
+    void DescartarTodaMano () {
+        List<Carta> _cartas = new List<Carta>(zonaJuego.DescartarMano());
+        _cartas.AddRange(zonaMano.DescartarMano());
+
+        for (int i = 0; i < _cartas.Count; i++) {
+            if(_cartas[i].GetTipo() != LUGAR.Comun)
+                StartCoroutine(DescartarCarta(_cartas[i]));
+            else
+                zonaComun.AddCarta(_cartas[i]);
         }
     }
     
@@ -186,7 +250,7 @@ public class GameManager : MonoBehaviour {
         if (cartaSeleccionada.GetTrueLetter() == "*" && nuevaZona == zonaJuego) {
             comodinMan.SeleccionarComodin(cartaSeleccionada);
         } else {
-            comodinMan.panel.SetActive(false);
+            comodinMan.CerrarPanel();
         }
 
         cartaSeleccionada.setTouch(false);
@@ -202,6 +266,12 @@ public class GameManager : MonoBehaviour {
 
     public void MoverCarta(GameObject obj, Vector3 position, Vector3 rotation) {
         StartCoroutine(_MoverCarta(obj, position, rotation));
+    }
+
+    public IEnumerator MoverCartaCompra (GameObject obj, Vector3 position) {
+        yield return StartCoroutine(_MoverCarta(obj, position, obj.transform.rotation.eulerAngles));
+        obj.transform.localScale = new Vector3(0.75f, 0.75f, 1);
+        obj.transform.position = posGuardado;
     }
 
     IEnumerator _MoverCarta(GameObject obj, Vector3 position, Vector3 rotation, bool forced = false) {
@@ -255,6 +325,26 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    /*ESTO SIEMPRE SE HARA RESPECTO AL JUGADOR ACTUAL*/
+    public IEnumerator DescartarCarta (Carta carta) {
+        //Tiene que haber carta para poderse descartar
+        if(carta == null)
+            yield break;
+
+        int _actual = jugadorActual;
+        Jugador _jugador = jugadores[_actual];
+
+        //Obligatoriamente la carta tiene que estar en la MANO
+        if(!_jugador.ContainCard(carta))
+            yield break;
+
+        _jugador.DiscardCard(carta);
+        yield return StartCoroutine(_MoverCarta(carta.gameObject, DiscardDeckPosition(), carta.transform.rotation.eulerAngles));
+
+        carta.transform.position = posGuardado;
+        CambiarTamañoMazos(_actual);
+    }
+
     public IEnumerator MoverMazo() {
         int _actual = jugadorActual;
         Jugador _jugador = jugadores[_actual];
@@ -273,12 +363,20 @@ public class GameManager : MonoBehaviour {
         _jugador.BarajarMazo();
     }
 
+    public Vector3 DiscardDeckPosition() {
+        return new Vector3(mazoDescObj.transform.position.x, mazoDescObj.transform.position.y, mazoDescObj.transform.position.z * 2);
+    }
+
     public int GetPlayerID() {
         return jugadorActual;
     }
 
     public Jugador GetPlayer() {
         return jugadores[jugadorActual];
+    }
+
+    public Jugador GetPlayer(int jugador) {
+        return jugadores[jugador];
     }
 
     public List<string> DevolverIndiceSimple(bool incluirComodin) {
@@ -300,5 +398,9 @@ public class GameManager : MonoBehaviour {
         mazoDescObj.transform.localScale = new Vector3(1.5f, 2.1f, cantidad / 100);
         mazoDescObj.transform.position = new Vector3(mazoDescObj.transform.position.x, mazoDescObj.transform.position.y, -cantidad / 200);
         mazoDescObj.SetActive(cantidad > 0);
+    }
+
+    void ActivarRayCast (bool state) {
+        rayActivado = state;
     }
 }

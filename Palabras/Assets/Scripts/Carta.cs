@@ -27,6 +27,18 @@ public class Carta : MonoBehaviour {
 
     public float posX = 0;
     public int ite = 0;
+
+    ZonaJuego zonaActual;
+
+    public ZonaJuego ZonaActual {
+        get {
+            return zonaActual;
+        }
+
+        set {
+            zonaActual = value;
+        }
+    }
     
     public void ConfigurarCarta (CartaInfo carta) {
         info = carta;
@@ -90,6 +102,10 @@ public class Carta : MonoBehaviour {
 
     public int GetPrecio () {
         return info.precio;
+    }
+
+    public int GetFame() {
+        return info.fama;
     }
 
     public LUGAR GetTipo () {

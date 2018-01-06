@@ -64,6 +64,11 @@ public class ComodinManager : MonoBehaviour {
         panel.SetActive(true);
     }
 
+    public void CerrarPanel () {
+        comodin = null;
+        panel.SetActive(false);
+    }
+
     void SeleccionarBoton (Carta carta, Boton boton) {
         if (comodin==null) {
             Debug.Log("No hay comodin seleccionado");

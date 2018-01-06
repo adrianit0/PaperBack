@@ -11,6 +11,7 @@ public class ShopController : MonoBehaviour {
 
     public GameObject panel;
     public Text textoDinero;
+    public Boton botonTerminar;
     public GameObject[] productos;
     Dictionary<Carta, int> cartasTienda;
 
@@ -19,21 +20,32 @@ public class ShopController : MonoBehaviour {
         tienda = new Tienda();
     }
 
+    private void Start() {
+        panel.SetActive(false);
+    }
+
     public void Inicializar() {
         RemoveContent();
         SetButtons();
         tienda.BarajarMazos();
         ActualizarTienda();
-        AbrirTienda();
+        botonTerminar.pulsarBoton.AddListener(() => TerminarRonda());
     }
 
     public void AddCarta (Carta carta) {
+        carta.transform.parent = panel.transform;
+
         if(carta.GetTipo() == LUGAR.Tienda)
             tienda.AddCartaLetra(carta);
         else if(carta.GetTipo() == LUGAR.Fama)
             tienda.AddCartaFama(carta);
         else
             Debug.Log("La carta "+carta.GetName()+" no ha sido añadida correctamente");
+    }
+
+    void TerminarRonda () {
+        panel.SetActive(false);
+        manager.StartRound();
     }
 
     void SetButtons () {
@@ -115,14 +127,26 @@ public class ShopController : MonoBehaviour {
     }
 
     void SeleccionarProducto (int index, int precio, int posicion) {
+        //Le das la carta y lo envias al descarte
+        Carta _carta = tienda.GetCard(precio, posicion);
+        if(_carta == null) {
+            Debug.Log("No hay carta para comprar");
+            return;
+        }
+
         Jugador _player = manager.GetPlayer();
-
         if(_player.SpendMoney(precio)) {
-            //Le das la carta y lo envias al descarte
+            
+            tienda.RemoveCard(precio, _carta);
+            _player.AddCarta(_carta, true);
+            manager.SetPanel(_carta.gameObject);
+            _carta.canvas.sortingLayerName = "Carta";
+            manager.ChangeText();
+            StartCoroutine(manager.MoverCartaCompra(_carta.gameObject, manager.DiscardDeckPosition()));
 
+            ActualizarTienda();
             ActualizarDinero(_player.GetMoney());
             ActualizarPrecio(_player.GetMoney());
-            ActualizarTienda();
             return;
         }
 

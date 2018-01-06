@@ -13,7 +13,7 @@ public class Jugador {
 
     public Jugador (string nombre) {
         this.nombre = nombre;
-        dinero = 4;
+        dinero = 0;
 
         mazoRobo = new List<Carta>();
         mazoDescarte = new List<Carta>();
@@ -34,6 +34,23 @@ public class Jugador {
 
     public void StartTurn () {
         dinero = 0;
+    }
+
+    public string GetName() {
+        return nombre;
+    }
+
+    public int GetFame () {
+        int cantidad = 0;
+
+        for (int i=0; i<mazoRobo.Count; i++) {
+            cantidad += mazoRobo[i].GetFame();
+        }
+        for(int i = 0; i < mazoDescarte.Count; i++) {
+            cantidad += mazoDescarte[i].GetFame();
+        }
+
+        return cantidad;
     }
 
     public Carta GetTopCardFromDrawDeck () {
@@ -62,6 +79,14 @@ public class Jugador {
             mazoRobo.Add(carta);
     }
 
+    public void DiscardCard (Carta carta) {
+        AddCarta(carta, true);
+    }
+
+    public bool ContainCard (Carta carta) {
+        return mano.Contains(carta);
+    }
+
     public void EliminarCarta (Carta carta) {
         //TODO: La carta eliminada tiene que estar en la mano.
         mazoEliminado.Add(carta);
@@ -77,6 +102,10 @@ public class Jugador {
 
     public int GetMoney() {
         return dinero;
+    }
+
+    public void ReceiveMoney (int cantidad) {
+        dinero += cantidad;
     }
 
     public bool SpendMoney (int cantidad) {

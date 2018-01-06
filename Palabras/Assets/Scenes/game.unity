@@ -332,7 +332,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 77461448}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.419, y: -2.385, z: 0.38}
+  m_LocalPosition: {x: 4.419, y: -2.385, z: 0.324}
   m_LocalScale: {x: 1.5, y: 1, z: 1}
   m_Children:
   - {fileID: 1714115586}
@@ -359,7 +359,7 @@ MonoBehaviour:
   imagenDesactivada: {fileID: 0}
   colorContorno: {r: 1, g: 1, b: 0, a: 1}
   contorno: {fileID: 0}
-  posicionPulsadoRelativo: {x: 0, y: 0, z: -0.1}
+  posicionPulsadoRelativo: {x: 0, y: 0, z: -0.05}
   pulsarBoton:
     m_PersistentCalls:
       m_Calls: []
@@ -5358,7 +5358,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -54.399994}
+  m_AnchoredPosition: {x: 5, y: -54.399994}
   m_SizeDelta: {x: 192, y: 48}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1328654722
@@ -5373,7 +5373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7218,6 +7218,7 @@ GameObject:
   - component: {fileID: 1838862634}
   - component: {fileID: 1838862635}
   - component: {fileID: 1838862636}
+  - component: {fileID: 1838862637}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -7728,6 +7729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 259972116}
   textoDinero: {fileID: 792189103}
+  botonTerminar: {fileID: 77461450}
   productos:
   - {fileID: 1883083625}
   - {fileID: 924178040}
@@ -7772,6 +7774,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 36761415}
   prefab: {fileID: 1199598756161836, guid: 8c7fe8ba674bf3648b059495340bfcc0, type: 2}
+--- !u!114 &1838862637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1838862631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d082d9a2c71297d418dcf102d7a233ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  marcadores:
+  - panel: {fileID: 1328654721}
+    textoNombre: {fileID: 1297871178}
+    textoInfo: {fileID: 2042920390}
+  - panel: {fileID: 1502337855}
+    textoNombre: {fileID: 1202015962}
+    textoInfo: {fileID: 1088912694}
+  - panel: {fileID: 1642582099}
+    textoNombre: {fileID: 1880999345}
+    textoInfo: {fileID: 196189856}
+  - panel: {fileID: 522698955}
+    textoNombre: {fileID: 1231753248}
+    textoInfo: {fileID: 834227676}
+  - panel: {fileID: 2101159920}
+    textoNombre: {fileID: 1317212988}
+    textoInfo: {fileID: 1336340884}
 --- !u!1 &1842318276
 GameObject:
   m_ObjectHideFlags: 0
