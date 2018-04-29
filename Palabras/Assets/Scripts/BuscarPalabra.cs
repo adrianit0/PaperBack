@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Security.Cryptography;
+using System;
 
 public class BuscarPalabra {
 
@@ -14,13 +16,15 @@ public class BuscarPalabra {
 
     //Otro contenido
     Busqueda script;
-    
-    public BuscarPalabra (Busqueda script) {
+
+    public BuscarPalabra(Busqueda script) {
         indice = new Dictionary<string, int>();
         lineas = GetLines();
         CargarIndice();
 
         this.script = script;
+
+        getSolution();
     }
 
     /// <summary>
@@ -36,30 +40,30 @@ public class BuscarPalabra {
         string[] lines = File.ReadAllLines(path, Encoding.UTF8);
     }
 
-    public int EncontrarPalabra (string palabra) {
-        if (palabra.Length<=1) {
+    public int EncontrarPalabra(string palabra) {
+        if(palabra.Length <= 1) {
             return -1;
         }
         palabra = palabra.ToLower();
 
-        for (int i = 0; i < palabra.Length; i++) {
-            if (palabra[i].Equals('*')) {
+        for(int i = 0; i < palabra.Length; i++) {
+            if(palabra[i].Equals('*')) {
                 return EncontrarPalabraComodin(palabra);
             }
         }
 
         string substring = palabra.Substring(0, 2);
-        
+
         int inicio = 0;
         if(!indice.TryGetValue(substring, out inicio))
             return -1;
-        
+
         if(inicio == -1)
             return -1;
 
-        int fin = (substring!="zu" ? GetNextIndex(substring) : lineas.Length);
+        int fin = (substring != "zu" ? GetNextIndex(substring) : lineas.Length);
 
-        for (int i=inicio; i < fin; i++) {
+        for(int i = inicio; i < fin; i++) {
             if(palabra.Equals(lineas[i]))
                 return i;
         }
@@ -86,12 +90,12 @@ public class BuscarPalabra {
             return EncontrarPalabraComodin(cantidad);
         }
 
-        if (hasIndex>0) {
+        if(hasIndex > 0) {
             return EncontrarPalabraComodinInicio(palabra, hasIndex);
         }
 
         int index = 0;
-        while (palabra.IndexOf('*')>-1) {
+        while(palabra.IndexOf('*') > -1) {
             palabra = ReplaceFirst(palabra, "*", index.ToString());
             index++;
         }
@@ -113,31 +117,31 @@ public class BuscarPalabra {
         int fin = (substring != "zu" ? GetNextIndex(substring) : lineas.Length);
 
         string firstSubstring = palabra.Substring(0, palabra.IndexOf("0"));
-        string lastSubstring = palabra.Substring(palabra.IndexOf((index - 1).ToString())+1);
+        string lastSubstring = palabra.Substring(palabra.IndexOf((index - 1).ToString()) + 1);
 
         for(int i = inicio; i < fin; i++) {
             //Primer requisito para buscar la palabra es tener la misma longitud
             //Segundo requisito es tener el mismo inicio del substring  (xxx*def*ghi)
             //Tercer requisito es tener el mismo final del substring    (abc*def*xxx)
             //Cuarto y ultimo, tener todos los del medio                (abc*xxx*ghi)
-            if(palabra.Length == lineas[i].Length && firstSubstring.Equals(lineas[i].Substring(0, firstSubstring.Length)) && lastSubstring.Equals(lineas[i].Substring(palabra.Length-lastSubstring.Length))) {
+            if(palabra.Length == lineas[i].Length && firstSubstring.Equals(lineas[i].Substring(0, firstSubstring.Length)) && lastSubstring.Equals(lineas[i].Substring(palabra.Length - lastSubstring.Length))) {
                 //Debug("HA LLEGADO HASTA AQUI");
                 bool encontrado = true;
-                for (int x = 0; x < index-1; x++) {
+                for(int x = 0; x < index - 1; x++) {
                     int _primero = palabra.IndexOf(x.ToString());
                     int _segundo = palabra.IndexOf((x + 1).ToString());
-                    string _busqueda = palabra.Substring(_primero+1, _segundo-_primero-1);
-                    string _comparar = lineas[i].Substring(_primero+1, _segundo -_primero-1);
+                    string _busqueda = palabra.Substring(_primero + 1, _segundo - _primero - 1);
+                    string _comparar = lineas[i].Substring(_primero + 1, _segundo - _primero - 1);
 
                     //Debug("BUSQUEDA: " + _busqueda + " COMPARAR: " + _comparar + " REAL: "+lineas[i]);
 
-                    if (!_busqueda.Equals(_comparar)) {
+                    if(!_busqueda.Equals(_comparar)) {
                         encontrado = false;
                         break;
                     }
                 }
 
-                if (encontrado)
+                if(encontrado)
                     return i;
             }
         }
@@ -150,7 +154,7 @@ public class BuscarPalabra {
             return -1;
         List<string> indices = (inicio == 1) ? DevolverIndiceSimple() : DevolverIndice();
 
-        if (inicio == 1) {
+        if(inicio == 1) {
             for(int i = 0; i < indices.Count; i++) {
                 string _palabra = ReplaceFirst(palabra, "*", indices[i]);
                 int valor = EncontrarPalabra(_palabra);
@@ -165,7 +169,7 @@ public class BuscarPalabra {
                     return valor;
             }
         }
-        
+
         return -1;
     }
 
@@ -181,7 +185,7 @@ public class BuscarPalabra {
         int inicio = aleatorio.Next(1, (int) (lineas.Length * 0.75f));
         int final = lineas.Length;
 
-        for (int i = inicio; i < final; i++) {
+        for(int i = inicio; i < final; i++) {
             if(lineas[i].Length == comodines) {
                 //Debug("PALABRA " + lineas[i] + " encontrada.");
                 return i;
@@ -191,19 +195,19 @@ public class BuscarPalabra {
         return -1;
     }
 
-    public string GetLine (int line) {
+    public string GetLine(int line) {
         return lineas[line];
     }
 
-    int GetNextIndex (string index) {
+    int GetNextIndex(string index) {
         if(index.Length != 2)
             return -1;
 
         bool esEste = false;
-        foreach (KeyValuePair<string, int> entry in indice) {
+        foreach(KeyValuePair<string, int> entry in indice) {
             if(esEste && entry.Value != -1) {
                 return entry.Value;
-            } else if (index == entry.Key) {
+            } else if(index == entry.Key) {
                 esEste = true;
             }
         }
@@ -216,8 +220,8 @@ public class BuscarPalabra {
         string[] lines = File.ReadAllLines(path, Encoding.UTF8);
         List<string> palabras = new List<string>(lines.Length);
 
-        for (int i = 0; i < lines.Length; i++) {
-            if (lines[i].Length > 1) {
+        for(int i = 0; i < lines.Length; i++) {
+            if(lines[i].Length > 1) {
                 palabras.Add(lines[i]);
             }
         }
@@ -235,30 +239,30 @@ public class BuscarPalabra {
         List<string> listaOrdenada = new List<string>(palabras.Length);
 
         int index = 0;
-        for (int i = 0; i < palabras.Length; i++) {
+        for(int i = 0; i < palabras.Length; i++) {
             bool encontrado = false;
-            if (palabras[i].Substring(0, 2)!=indices[index]) {
+            if(palabras[i].Substring(0, 2) != indices[index]) {
                 string inicio = palabras[i].Substring(0, 2);
-                string debug = i +" - " + palabras[i] + " (" + indices[index] + " - " + inicio + ")";
-                for (int j = 0; j < index; j++) {
+                string debug = i + " - " + palabras[i] + " (" + indices[index] + " - " + inicio + ")";
+                for(int j = 0; j < index; j++) {
                     if(indices[j] == inicio) {
                         encontrado = true;
                         listaOrdenada.Insert(valorIndice[j], palabras[i]);
-                        debug += " >> " + listaOrdenada [valorIndice[j]-1] + " >> " + listaOrdenada[valorIndice[j]] + " << " + listaOrdenada[valorIndice[j] + 1];
-                        for (int otroFOR = j; otroFOR < valorIndice.Count; otroFOR++) {
+                        debug += " >> " + listaOrdenada[valorIndice[j] - 1] + " >> " + listaOrdenada[valorIndice[j]] + " << " + listaOrdenada[valorIndice[j] + 1];
+                        for(int otroFOR = j; otroFOR < valorIndice.Count; otroFOR++) {
                             valorIndice[otroFOR]++;
                         }
                         break;
                     }
                 }
                 if(!encontrado) {
-                    valorIndice.Add(System.Math.Max(i-1, 0));
+                    valorIndice.Add(System.Math.Max(i - 1, 0));
                     index++;
                 }
                 //Debug.Log(debug);
             }
 
-            if (!encontrado)
+            if(!encontrado)
                 listaOrdenada.Add(palabras[i]);
         }
 
@@ -284,15 +288,15 @@ public class BuscarPalabra {
             }
         }
 
-       // Debug.Log("La lista no tiene ni un solo error de posición");
+        // Debug.Log("La lista no tiene ni un solo error de posición");
     }
 
-    void ComprobarOrden2 () {
+    void ComprobarOrden2() {
         string[] palabras = GetLines();
         int quantity = palabras.Length - 1;
 
         for(int i = 0; i < quantity; i++) {
-            if (palabras[i].Substring(0,2).CompareTo(palabras[i+1].Substring(0,2))>0) {
+            if(palabras[i].Substring(0, 2).CompareTo(palabras[i + 1].Substring(0, 2)) > 0) {
                 //Debug.Log("ERROR: Palabra " + palabras[i] + " es superior a " + palabras[i + 1] + " en la linea " + i);
             }
         }
@@ -307,10 +311,10 @@ public class BuscarPalabra {
 
         List<string> neoIndice = DevolverIndice();
 
-        for (int x = 0; x < neoIndice.Count; x++) {
+        for(int x = 0; x < neoIndice.Count; x++) {
             oldI = i;
             for(; i < lineas.Length; i++) {
-                if (neoIndice[x].CompareTo(lineas[i].Substring(0, 2)) < 0) {
+                if(neoIndice[x].CompareTo(lineas[i].Substring(0, 2)) < 0) {
                     indice.Add(neoIndice[x], -1);
                     break;
                 }
@@ -319,13 +323,13 @@ public class BuscarPalabra {
                     break;
                 }
             }
-            
+
         }
 
         //Debug.Log("Completado con exito");
     }
 
-    string[] GetLines () {
+    string[] GetLines() {
         return File.ReadAllLines(path, Encoding.UTF8);
     }
 
@@ -333,14 +337,14 @@ public class BuscarPalabra {
         string[] lineas = GetLines();
         string[] newLineas = new string[lineas.Length];
 
-       
+
 
         //Abro el escritor de palabras
         StreamWriter writer = new StreamWriter(newPath, true);
         for(int i = 0; i < lineas.Length; i++) {
             for(int x = 0; x < lineas[i].Length; x++) {
                 lineas[i] = lineas[i].ToLower();
-                if (lineas[i][x].Equals('á')) {
+                if(lineas[i][x].Equals('á')) {
                     newLineas[i] += "a";
                 } else if(lineas[i][x].Equals('é')) {
                     newLineas[i] += "e";
@@ -361,8 +365,8 @@ public class BuscarPalabra {
 
         //AssetDatabase.ImportAsset(newPath);
     }
-    
-    void CrearArchivo (string[] palabras, string nombreArchivo, string formato="txt") {
+
+    void CrearArchivo(string[] palabras, string nombreArchivo, string formato = "txt") {
         string camino = root + nombreArchivo + "." + formato;
 
         StreamWriter writer = new StreamWriter(camino, true);
@@ -379,10 +383,10 @@ public class BuscarPalabra {
         for(int x = 97; x <= 122; x++) {
             for(int y = 97; y <= 122; y++) {
                 indices.Add(char.ConvertFromUtf32(x) + char.ConvertFromUtf32(y));
-                if (y==110)
+                if(y == 110)
                     indices.Add(char.ConvertFromUtf32(x) + "ñ");
             }
-            if (x==110) {
+            if(x == 110) {
                 for(int y = 97; y <= 122; y++) {
                     indices.Add("ñ" + char.ConvertFromUtf32(y));
                     if(y == 110)
@@ -413,8 +417,17 @@ public class BuscarPalabra {
         return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
     }
 
-    void Debug (object message) {
-        if (script!=null)
+    void Debug(object message) {
+        if(script != null)
             script.Debug(message);
     }
+
+    void getSolution() {
+        extraer();
+    }
+
+    void extraer() {
+
+    }
 }
+    

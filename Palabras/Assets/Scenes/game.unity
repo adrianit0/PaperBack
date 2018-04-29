@@ -2779,6 +2779,10 @@ Prefab:
       propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1377550174088944, guid: ee9288a56f4398b4eb282a3c3e747bf3, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee9288a56f4398b4eb282a3c3e747bf3, type: 2}
   m_IsPrefabParent: 0
@@ -3023,7 +3027,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &778957265
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4066,6 +4070,10 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1741942434358598, guid: 81874daf42e4b8c4a96e1a89c46d32da, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 81874daf42e4b8c4a96e1a89c46d32da, type: 2}
   m_IsPrefabParent: 0
@@ -4351,6 +4359,10 @@ Prefab:
     - target: {fileID: 4262310465939810, guid: f4ac0c82f06cf694f97e5740c1f9e8c8, type: 2}
       propertyPath: m_LocalScale.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1647993763121366, guid: f4ac0c82f06cf694f97e5740c1f9e8c8, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f4ac0c82f06cf694f97e5740c1f9e8c8, type: 2}
@@ -7246,6 +7258,14 @@ MonoBehaviour:
     lugarInicial: 1
     copias: 5
     prefab: {fileID: 0}
+  - letra: '*'
+    precio: 5
+    premio: 0
+    fama: 4
+    descripcion: 
+    lugarInicial: 2
+    copias: 1
+    prefab: {fileID: 0}
   - letra: N
     precio: 1
     premio: 1
@@ -7679,6 +7699,22 @@ MonoBehaviour:
     lugarInicial: 0
     copias: 1
     prefab: {fileID: 0}
+  - letra: B
+    precio: 5
+    premio: 3
+    fama: 0
+    descripcion: "ATAQUE: -1\u20AC por cada carta sin usar"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: B
+    precio: 5
+    premio: 3
+    fama: 0
+    descripcion: "Destruyes esta carta y ganas una carta aleatoria que cuesta 6\u20AC"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
   - letra: X
     precio: 9
     premio: 5
@@ -7687,12 +7723,495 @@ MonoBehaviour:
     lugarInicial: 0
     copias: 1
     prefab: {fileID: 0}
-  - letra: '*'
+  - letra: C
+    precio: 5
+    premio: 2
+    fama: 0
+    descripcion: "Destruyes esta carta y ganas una carta aleatoria que cuesta 7\u20AC"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: G
+    precio: 5
+    premio: 3
+    fama: 0
+    descripcion: "Mira las 5 primeras cartas de tu mazo y descartala, consigues tantos
+      \u20AC como la suma de \u2605"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: L
     precio: 5
     premio: 0
-    fama: 4
-    descripcion: 
-    lugarInicial: 2
+    fama: 0
+    descripcion: Copia la habilidad de las cartas adyacentes
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: L
+    precio: 5
+    premio: 0
+    fama: 0
+    descripcion: "Dobla la puntuaci\xF3n de las cartas adyacentes"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: M
+    precio: 5
+    premio: 2
+    fama: 0
+    descripcion: "+1 carta el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: N
+    precio: 5
+    premio: 1
+    fama: 0
+    descripcion: "+2 cartas el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: N
+    precio: 5
+    premio: 0
+    fama: 0
+    descripcion: "Dobla la puntuaci\xF3n de las cartas adyacentes"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: P
+    precio: 5
+    premio: 2
+    fama: 0
+    descripcion: "+1 carta el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: P
+    precio: 5
+    premio: 2
+    fama: 0
+    descripcion: "Si esta es la primera letra en la palabra, +2\u20AC"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: R
+    precio: 5
+    premio: 1
+    fama: 0
+    descripcion: "Por cada carta sin usar este turno, +1 carta el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: T
+    precio: 5
+    premio: 2
+    fama: 0
+    descripcion: "+1\u20AC por cada comod\xEDn en la palabra"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: Y
+    precio: 5
+    premio: 3
+    fama: 0
+    descripcion: "Si la palabra puntua 8\u20AC o m\xE1s, +1 carta el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: Y
+    precio: 5
+    premio: 3
+    fama: 0
+    descripcion: Se barajan todas las pilas de compra
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: Y
+    precio: 5
+    premio: 3
+    fama: 0
+    descripcion: "ATAQUE: No se puede robar m\xE1s de 5 cartas."
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: B
+    precio: 6
+    premio: 1
+    fama: 0
+    descripcion: "Las palabras adyacentes cuentan como comod\xEDn"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: C
+    precio: 6
+    premio: 2
+    fama: 0
+    descripcion: "Gana una carta aleatoria de coste 4\u20AC o menos"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: F
+    precio: 6
+    premio: 4
+    fama: 0
+    descripcion: "Si la palabra es de 4 letras o menos, +1 carta el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: F
+    precio: 6
+    premio: 4
+    fama: 0
+    descripcion: "Los comodines cuestan 1\u20AC menos este turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: G
+    precio: 6
+    premio: 1
+    fama: 0
+    descripcion: "Las palabras adyacentes cuentan como comod\xEDn"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: G
+    precio: 6
+    premio: 3
+    fama: 0
+    descripcion: "ATAQUE: Se descartan las letras de coste 8\u20AC o m\xE1s"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: H
+    precio: 6
+    premio: 4
+    fama: 0
+    descripcion: "Si te queda un comod\xEDn en la mano, +1 carta el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: H
+    precio: 6
+    premio: 4
+    fama: 0
+    descripcion: "Destruyes esta carta y ganas una carta aleatoria que cuesta 7\u20AC"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: N
+    precio: 6
+    premio: 1
+    fama: 0
+    descripcion: "+2\u20AC por cada comod\xEDn en la palabra"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: R
+    precio: 6
+    premio: 1
+    fama: 0
+    descripcion: "+3 cartas el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: U
+    precio: 6
+    premio: 2
+    fama: 0
+    descripcion: "+2 cartas el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: U
+    precio: 6
+    premio: 2
+    fama: 0
+    descripcion: "Destruyes una carta aleatoria de tu mano y ganas +3\u20AC"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: V
+    precio: 6
+    premio: 3
+    fama: 0
+    descripcion: Tras puntuar, devuelve una carta usada aleatoria de vuelta a tu mazo
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: V
+    precio: 6
+    premio: 3
+    fama: 0
+    descripcion: "ATAQUE: No se puede comprar nada que cueste m\xE1s de 8\u20AC"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: Z
+    precio: 6
+    premio: 4
+    fama: 0
+    descripcion: "Destruyes todas las cartas sobrante de tu mano, ganas +1\u20AC por
+      cada una"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: B
+    precio: 7
+    premio: 2
+    fama: 0
+    descripcion: Copia la habilidad de las cartas adyacentes
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: C
+    precio: 7
+    premio: 2
+    fama: 0
+    descripcion: La palabra puntua doble, destruir despues de usar
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: H
+    precio: 7
+    premio: 4
+    fama: 0
+    descripcion: 'ATAQUE: Las palabras de dos letras se descartan'
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: J
+    precio: 7
+    premio: 5
+    fama: 0
+    descripcion: "Los comodines cuestan 1\u20AC menos este turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: J
+    precio: 7
+    premio: 5
+    fama: 0
+    descripcion: "Destruyes todas las cartas sobrante de tu mano, ganas +1\u20AC por
+      cada una"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: K
+    precio: 7
+    premio: 5
+    fama: 0
+    descripcion: "Si te queda un comod\xEDn en la mano, +1 carta el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: M
+    precio: 7
+    premio: 2
+    fama: 0
+    descripcion: La palabra puntua doble, destruir despues de usar
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: "\xD1"
+    precio: 7
+    premio: 5
+    fama: 0
+    descripcion: "Si la palabra es de 4 letras o menos, +1 carta el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: P
+    precio: 7
+    premio: 2
+    fama: 0
+    descripcion: "+3 cartas el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: QU
+    precio: 7
+    premio: 4
+    fama: 0
+    descripcion: "Si la palabra es de 7 letras o m\xE1s, 3\u20AC"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: Qu
+    precio: 7
+    premio: 2
+    fama: 0
+    descripcion: Tras puntuar, devuelve una carta usada de vuelta a tu mazo
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: T
+    precio: 7
+    premio: 2
+    fama: 0
+    descripcion: "Ganas una carta aleatoria que cueste 6\u20AC o menos"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: U
+    precio: 7
+    premio: 2
+    fama: 0
+    descripcion: La palabra puntua doble, destruir despues de usar
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: V
+    precio: 7
+    premio: 3
+    fama: 0
+    descripcion: "Gana una carta aleatoria que cueste 4\u20AC o menos"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: Z
+    precio: 7
+    premio: 4
+    fama: 0
+    descripcion: "ATAQUE: Las palabras no pueden tener m\xE1s de 5 letras"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: Z
+    precio: 7
+    premio: 4
+    fama: 0
+    descripcion: "+1 carta el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: F
+    precio: 8
+    premio: 3
+    fama: 0
+    descripcion: "Dobla la puntuaci\xF3n de las cartas adyacentes"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: G
+    precio: 8
+    premio: 3
+    fama: 0
+    descripcion: "+2\u20AC por cada comod\xEDn en la palabra"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: H
+    precio: 9
+    premio: 4
+    fama: 0
+    descripcion: La palabra puntua doble, destruir despues de usar
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: J
+    precio: 8
+    premio: 5
+    fama: 0
+    descripcion: "+1 carta el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: K
+    precio: 8
+    premio: 5
+    fama: 0
+    descripcion: 'ATAQUE: Solo se usa una habilidad aleatoria en la palabra'
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: K
+    precio: 9
+    premio: 5
+    fama: 0
+    descripcion: "+2 cartas el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: "\xD1"
+    precio: 8
+    premio: 5
+    fama: 0
+    descripcion: "Si la palabra es de 7 letras o m\xE1s, +3\u20AC"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: QU
+    precio: 8
+    premio: 3
+    fama: 0
+    descripcion: Copia la habilidad de las cartas adyacentes
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: V
+    precio: 8
+    premio: 3
+    fama: 0
+    descripcion: "+1\u20AC por cada letra en la palabra"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: W
+    precio: 10
+    premio: 5
+    fama: 0
+    descripcion: La palabra puntua doble, destruir despues de usar
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: W
+    precio: 10
+    premio: 5
+    fama: 0
+    descripcion: "+1\u20AC por cada letra en la palabra"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: X
+    precio: 8
+    premio: 5
+    fama: 0
+    descripcion: "+1 carta en el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: X
+    precio: 8
+    premio: 5
+    fama: 0
+    descripcion: "Destruyes esta carta y ganas una carta aleatoria de 10\u20AC"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: X
+    precio: 9
+    premio: 5
+    fama: 0
+    descripcion: "Por cada carta sin usar este turno. +1 carta el pr\xF3ximo turno"
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: Y
+    precio: 9
+    premio: 3
+    fama: 0
+    descripcion: La palabra puntua doble, destruir despues de usar
+    lugarInicial: 0
+    copias: 1
+    prefab: {fileID: 0}
+  - letra: Z
+    precio: 9
+    premio: 4
+    fama: 0
+    descripcion: "+3 cartas el pr\xF3ximo turno"
+    lugarInicial: 0
     copias: 1
     prefab: {fileID: 0}
   prefab: {fileID: 1514711924893350, guid: 3758f8702d44c0f42a7c7dd42111aca8, type: 2}
@@ -8320,6 +8839,10 @@ Prefab:
     - target: {fileID: 4794141692441526, guid: b2d04fead6aea5d4c83bd70062d2791b, type: 2}
       propertyPath: m_LocalScale.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1174020753441614, guid: b2d04fead6aea5d4c83bd70062d2791b, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2d04fead6aea5d4c83bd70062d2791b, type: 2}
